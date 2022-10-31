@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GhostBuster/GhostBuster.tscn" type="PackedScene" id=2]
+
+[node name="Buster4" type="Node2D"]
+position = Vector2( 600, -672 )
+
+[node name="GhostBuster" parent="." instance=ExtResource( 2 )]
+modulate = Color( 0.901961, 0.901961, 0.901961, 1 )
+_point_position = [ NodePath("../Position2D2"), NodePath("../Position2D3"), NodePath("../Position2D4"), NodePath("../Position2D5") ]
+
+[node name="Position2D2" type="Position2D" parent="."]
+position = Vector2( -56, 32 )
+
+[node name="Position2D3" type="Position2D" parent="."]
+position = Vector2( 224, 96 )
+
+[node name="Position2D4" type="Position2D" parent="."]
+position = Vector2( 232, 0 )
+
+[node name="Position2D5" type="Position2D" parent="."]
+position = Vector2( 80, -56 )

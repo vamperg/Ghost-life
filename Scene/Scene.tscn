@@ -1,0 +1,181 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sprite/Floor.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/world.gd" type="Script" id=3]
+[ext_resource path="res://Sprite/wall.png" type="Texture" id=4]
+[ext_resource path="res://Sprite/progressbar-over.png" type="Texture" id=8]
+[ext_resource path="res://Sprite/progressbar-progress.png" type="Texture" id=9]
+[ext_resource path="res://Sprite/progressbar-under.png" type="Texture" id=10]
+[ext_resource path="res://World/FreeGhostIco.tscn" type="PackedScene" id=13]
+
+[sub_resource type="Environment" id=1]
+background_mode = 4
+tonemap_mode = 2
+tonemap_exposure = 5.98
+glow_intensity = 4.08
+glow_strength = 0.38
+glow_hdr_threshold = 1.31
+glow_hdr_luminance_cap = 3.69
+glow_hdr_scale = 1.05
+glow_high_quality = true
+
+[sub_resource type="OccluderPolygon2D" id=8]
+polygon = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=6]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+
+[sub_resource type="TileSet" id=7]
+0/name = "wall.png 0"
+0/texture = ExtResource( 4 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 1
+0/autotile/bitmask_mode = 0
+0/autotile/bitmask_flags = [  ]
+0/autotile/icon_coordinate = Vector2( 0, 0 )
+0/autotile/tile_size = Vector2( 16, 16 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [ Vector2( 0, 0 ), SubResource( 8 ) ]
+0/autotile/navpoly_map = [  ]
+0/autotile/priority_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 6 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 6 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[node name="Scene" type="Node2D"]
+script = ExtResource( 3 )
+_pumpkin_bar = NodePath("CanvasLayer/Control/AspectRatioContainer/MarginContainer/VBoxContainer/HBoxContainer/PumpkinBar")
+_ghost_container = NodePath("CanvasLayer/Control/AspectRatioContainer/MarginContainer/VBoxContainer/GhostContainer")
+ghost_count = ExtResource( 13 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 160, 104 )
+current = true
+zoom = Vector2( 1.2, 1.2 )
+process_mode = 0
+smoothing_enabled = true
+smoothing_speed = 6.0
+drag_margin_left = 0.1
+drag_margin_top = 0.1
+drag_margin_right = 0.1
+drag_margin_bottom = 0.1
+
+[node name="Floor" type="Sprite" parent="Camera2D"]
+position = Vector2( 456, -147 )
+z_index = -1
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( -796.168, -2629.36, 4262.13, 3736.9 )
+region_filter_clip = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="PumpkinCollection" type="Node" parent="YSort"]
+
+[node name="BusterCollection" type="Node" parent="YSort"]
+
+[node name="GhostTrapCollection" type="Node" parent="YSort"]
+
+[node name="Player" parent="YSort" instance=ExtResource( 1 )]
+position = Vector2( 160, 104 )
+collision_mask = 2
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="YSort/Player"]
+remote_path = NodePath("../../../Camera2D")
+
+[node name="GhostTrap_activate_collection" type="Node" parent="YSort"]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+light_mask = 0
+color = Color( 0, 0, 0, 1 )
+
+[node name="WallMap" type="TileMap" parent="."]
+z_index = -1
+tile_set = SubResource( 7 )
+cell_size = Vector2( 16, 16 )
+collision_layer = 3
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( -3211229, 0, 0, -3211228, 0, 0, -3211227, 0, 0, -3211226, 0, 0, -3211225, 0, 0, -3211224, 0, 0, -3211223, 0, 0, -3211222, 0, 0, -3211221, 0, 0, -3211220, 0, 0, -3145695, 0, 0, -3145694, 0, 0, -3145693, 0, 0, -3145683, 0, 0, -3145682, 0, 0, -3145681, 0, 0, -3080160, 0, 0, -3080159, 0, 0, -3080145, 0, 0, -3080144, 0, 0, -3080143, 0, 0, -3014625, 0, 0, -3014624, 0, 0, -3014607, 0, 0, -3014606, 0, 0, -3014605, 0, 0, -3014604, 0, 0, -3014603, 0, 0, -2949090, 0, 0, -2949089, 0, 0, -2949067, 0, 0, -2949066, 0, 0, -2949065, 0, 0, -2949064, 0, 0, -2883554, 0, 0, -2883528, 0, 0, -2883527, 0, 0, -2818018, 0, 0, -2817991, 0, 0, -2752482, 0, 0, -2752455, 0, 0, -2752454, 0, 0, -2686947, 0, 0, -2686946, 0, 0, -2686918, 0, 0, -2621411, 0, 0, -2621382, 0, 0, -2555875, 0, 0, -2555846, 0, 0, -2555845, 0, 0, -2490340, 0, 0, -2490339, 0, 0, -2490309, 0, 0, -2424805, 0, 0, -2424804, 0, 0, -2424773, 0, 0, -2359270, 0, 0, -2359269, 0, 0, -2359237, 0, 0, -2293735, 0, 0, -2293734, 0, 0, -2293723, 0, 0, -2293722, 0, 0, -2293721, 0, 0, -2293720, 0, 0, -2293719, 0, 0, -2293718, 0, 0, -2293717, 0, 0, -2293701, 0, 0, -2228200, 0, 0, -2228199, 0, 0, -2228191, 0, 0, -2228190, 0, 0, -2228189, 0, 0, -2228188, 0, 0, -2228187, 0, 0, -2228181, 0, 0, -2228180, 0, 0, -2228179, 0, 0, -2228178, 0, 0, -2228177, 0, 0, -2228176, 0, 0, -2228175, 0, 0, -2228166, 0, 0, -2228165, 0, 0, -2162665, 0, 0, -2162664, 0, 0, -2162656, 0, 0, -2162655, 0, 0, -2162639, 0, 0, -2162638, 0, 0, -2162637, 0, 0, -2162636, 0, 0, -2162632, 0, 0, -2162631, 0, 0, -2162630, 0, 0, -2097130, 0, 0, -2097129, 0, 0, -2097121, 0, 0, -2097100, 0, 0, -2097099, 0, 0, -2097098, 0, 0, -2097097, 0, 0, -2097096, 0, 0, -2031595, 0, 0, -2031594, 0, 0, -2031586, 0, 0, -2031585, 0, 0, -1966060, 0, 0, -1966059, 0, 0, -1966051, 0, 0, -1966050, 0, 0, -1900525, 0, 0, -1900524, 0, 0, -1900515, 0, 0, -1900499, 0, 0, -1900498, 0, 0, -1900497, 0, 0, -1834989, 0, 0, -1834979, 0, 0, -1834967, 0, 0, -1834966, 0, 0, -1834965, 0, 0, -1834964, 0, 0, -1834963, 0, 0, -1834962, 0, 0, -1834961, 0, 0, -1834960, 0, 0, -1834959, 0, 0, -1834958, 0, 0, -1769453, 0, 0, -1769443, 0, 0, -1769432, 0, 0, -1769431, 0, 0, -1769422, 0, 0, -1769421, 0, 0, -1703917, 0, 0, -1703908, 0, 0, -1703907, 0, 0, -1703897, 0, 0, -1703896, 0, 0, -1703885, 0, 0, -1703884, 0, 0, -1638381, 0, 0, -1638372, 0, 0, -1638371, 0, 0, -1638370, 0, 0, -1638369, 0, 0, -1638368, 0, 0, -1638367, 0, 0, -1638366, 0, 0, -1638365, 0, 0, -1638364, 0, 0, -1638363, 0, 0, -1638362, 0, 0, -1638361, 0, 0, -1638348, 0, 0, -1638347, 0, 0, -1572845, 0, 0, -1572811, 0, 0, -1507309, 0, 0, -1507275, 0, 0, -1441773, 0, 0, -1441739, 0, 0, -1441738, 0, 0, -1376237, 0, 0, -1376202, 0, 0, -1310701, 0, 0, -1310666, 0, 0, -1245165, 0, 0, -1245153, 0, 0, -1245152, 0, 0, -1245151, 0, 0, -1245150, 0, 0, -1245149, 0, 0, -1245148, 0, 0, -1245147, 0, 0, -1245130, 0, 0, -1245129, 0, 0, -1179629, 0, 0, -1179619, 0, 0, -1179618, 0, 0, -1179617, 0, 0, -1179611, 0, 0, -1179593, 0, 0, -1114093, 0, 0, -1114083, 0, 0, -1114075, 0, 0, -1114074, 0, 0, -1114057, 0, 0, -1048557, 0, 0, -1048548, 0, 0, -1048547, 0, 0, -1048538, 0, 0, -1048521, 0, 0, -983022, 0, 0, -983021, 0, 0, -983012, 0, 0, -983002, 0, 0, -983001, 0, 0, -982985, 0, 0, -917486, 0, 0, -917476, 0, 0, -917465, 0, 0, -917450, 0, 0, -917449, 0, 0, -851929, 0, 0, -851928, 0, 0, -851915, 0, 0, -851914, 0, 0, -786392, 0, 0, -786379, 0, 0, -720855, 0, 0, -720845, 0, 0, -720844, 0, 0, -655319, 0, 0, -655318, 0, 0, -655317, 0, 0, -655316, 0, 0, -655315, 0, 0, -655314, 0, 0, -655313, 0, 0, -655312, 0, 0, -655311, 0, 0, -655310, 0, 0, -655309, 0, 0, -589797, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 131071, 0, 0, 65557, 0, 0, 196607, 0, 0, 131093, 0, 0, 262143, 0, 0, 196629, 0, 0, 327679, 0, 0, 262165, 0, 0, 393215, 0, 0, 327701, 0, 0, 458751, 0, 0, 393237, 0, 0, 524287, 0, 0, 458773, 0, 0, 589823, 0, 0, 524309, 0, 0, 655359, 0, 0, 589845, 0, 0, 720895, 0, 0, 655381, 0, 0, 786431, 0, 0, 720917, 0, 0, 851967, 0, 0, 786432, 0, 0, 786433, 0, 0, 786434, 0, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 786438, 0, 0, 786439, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786443, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 0, 0, 786447, 0, 0, 786448, 0, 0, 786449, 0, 0, 786450, 0, 0, 786451, 0, 0, 786452, 0, 0, 786453, 0, 0 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+light_mask = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": true
+}
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CanvasLayer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/AspectRatioContainer"]
+margin_left = 30.0
+margin_right = 290.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 260, 0 )
+custom_constants/margin_right = 0
+custom_constants/margin_top = 15
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/AspectRatioContainer/MarginContainer"]
+margin_top = 15.0
+margin_right = 260.0
+margin_bottom = 180.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="GhostContainer" type="HBoxContainer" parent="CanvasLayer/Control/AspectRatioContainer/MarginContainer/VBoxContainer"]
+margin_right = 260.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/AspectRatioContainer/MarginContainer/VBoxContainer"]
+margin_top = 4.0
+margin_right = 260.0
+margin_bottom = 4.0
+size_flags_horizontal = 5
+alignment = 1
+
+[node name="PumpkinBar" type="TextureProgress" parent="CanvasLayer/Control/AspectRatioContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+margin_left = 62.0
+margin_right = 162.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 100, 10 )
+max_value = 5.0
+step = 0.625
+texture_under = ExtResource( 10 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
+nine_patch_stretch = true

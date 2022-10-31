@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://pixelfont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://World/AnimateLabel.gd" type="Script" id=2]
+
+[node name="Label" type="Label"]
+margin_left = -72.0
+margin_top = -29.0
+margin_right = 84.0
+margin_bottom = -15.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 72, 0 )
+size_flags_horizontal = 5
+custom_fonts/font = ExtResource( 1 )
+valign = 2
+uppercase = true
+script = ExtResource( 2 )
+typing_speed = 0.07
+
+[node name="Timer" type="Timer" parent="."]
